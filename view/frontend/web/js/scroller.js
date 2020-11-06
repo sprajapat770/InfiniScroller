@@ -1,4 +1,6 @@
-define(['uiComponent','Suraj_InfiniScroll/js/item'],function (Component,ItemComponent){
+define(
+    ['uiComponent','Suraj_InfiniScroll/js/item','Suraj_InfiniScroll/js/app/get-next-products'],
+    function (Component,ItemComponent,getNextItems){
     "use strict";
 
     function viewPort(element){
@@ -17,18 +19,6 @@ define(['uiComponent','Suraj_InfiniScroll/js/item'],function (Component,ItemComp
         return Math.max(Math.floor(viewPort(element).width / ItemComponent.width),1);
     }
 
-
-    function getNextItems(n){
-       let items = [];
-        while(n -- > 0){ 
-            items.push({name:"bar "+n,
-                image:"http://localhost/surajdemo/pub/media/catalog/product/cache/634ffd7d6dd50db3b6837fad3946c912/s/a/samsung.png",
-                url:"http://localhost/surajdemo/conf-1.html"
-            });
-        }
-
-        return items;
-    }
 
     return Component.extend({
         defaults:{
