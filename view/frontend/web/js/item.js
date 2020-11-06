@@ -1,10 +1,20 @@
 define(['uiComponent'],function (Component){
     "use strict";
 
-    return Component.extend({
+
+    const width=200,height=300;
+
+    const ItemComponent = Component.extend({
+
         defaults:{
-         template:'Suraj_InfiniScroll/item'
+         template:'Suraj_InfiniScroll/item',
+         width,
+         height
         }
     });
+
+    ItemComponent.width = width;
+    ItemComponent.height = height;
+    return ItemComponent;
 
 });
