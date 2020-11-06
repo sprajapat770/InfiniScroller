@@ -1,0 +1,17 @@
+<script type="text/x-magento-init">
+    {
+        "*":{
+            "Magento_Ui/js/core/app":{
+                "components":{
+                    "infiniscroll-products":{
+                        "component": "Suraj_InfiniScroll/js/scroller",
+                        "template":"Suraj_InfiniScroll/container"
+                    }
+                }
+            }
+        }
+    }
+</script>
+<div data-bind="scope: 'infiniscroll-products'">
+   <!--ko template:getTemplate() --><!-- /ko-->
+</div>

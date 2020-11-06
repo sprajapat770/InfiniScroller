@@ -1,0 +1,17 @@
+.infiniscroll-container {
+    display: flex;
+    flex-flow:row wrap ;
+    justify-content: space-around;
+}
+
+.infiniscroll-item {
+border: 1px solid black;
+    width: 200px;
+    height: 200px;
+    margin-bottom: 1em;
+}
+.infiniscroll-item .product-name{
+    font-weight:bold ;
+    text-align: center;
+}
+
