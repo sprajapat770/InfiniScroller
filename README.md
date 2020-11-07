@@ -19,3 +19,6 @@ set log on scroller.js at line set this.containerElement = domNode;
     IN CONSOLE
     $0
     require('uiRegistry').get('infiniscroll-products').viewPort($0)
+
+Test Runner console command------
+require(['Suraj_InfiniScroll/js/test'],test => test('Suraj_InfiniScroll/js/app/graphql-pager-test','Suraj_InfiniScroll/js/app/graphql-pager'));
