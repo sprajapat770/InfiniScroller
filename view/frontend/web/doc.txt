@@ -20,6 +20,20 @@ test.assertEquals({a:1},{a:2},{testCase:"example"});
     }; 
 
      to 
+ 
+    test.assertEquals = (expected,actual,info) => {
+
+    	if (!_.isEqual(expected,actual)) {
+    		throw {...(info || {}),expected,actual};
+    	}
+    };
 
 
-     
+2. actual pagination 
+	a) calculate current page & page size for graphql query
+	 that need to know the number of items that are already rendered
+
+	 graphql-pager-test.js  - - 
+	 	const known =0;
+        const toLoad =-1;
+        test.assertEquals({pageSize:0,currentPage:1},getPagingInfo(known,toLoad),{known,toLoad});
