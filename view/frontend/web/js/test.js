@@ -1,7 +1,7 @@
-define([],function (){
+define(['underscore'],function (_){
     "use strict";
 
-    return function(testModuleName,sutModuleName){
+    const test =  function(testModuleName,sutModuleName){
   
   		require.undef(testModuleName);
   		require.undef(sutModuleName);
@@ -15,6 +15,14 @@ define([],function (){
   			console.log('%c failure:',"background:red;color:white;",e);
   		}
   	})
-    }
+    };
+
+    test.assertEquals = (expected,actual,info) => {
+
+    	if (!_.isEqual(expected,actual)) {
+    		throw {...(info || {}),expected,actual};
+    	}
+    };
+    return test;
 
 });

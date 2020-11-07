@@ -1,0 +1,25 @@
+1. assertEqual added to test.js --- to easily compare the value return against the expected value and if failed then throw an exception inside the assertEquals function
+to do this extract the test runner function into a constant so we can add a new property
+!== is a identity comparesion  
+!= compare the two things are of same type
+underscore --- comare actual by value
+
+
+in graphql-pager-test.js 
+test.assertEquals({a:1},{a:2});
+test.assertEquals({a:1},{a:1});
+require(['Suraj_InfiniScroll/js/test'],test => test('Suraj_InfiniScroll/js/app/graphql-pager-test','Suraj_InfiniScroll/js/app/graphql-pager'));
+
+test.assertEquals({a:1},{a:2},{testCase:"example"});
+
+   test.assertEquals = (expected,actual) => {
+
+    	if (!_.isEqual(expected,actual)) {
+    		throw {expected,actual};
+    	}
+    }; 
+
+     to 
+
+
+     
