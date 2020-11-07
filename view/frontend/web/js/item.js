@@ -10,6 +10,13 @@ define(['uiComponent'],function (Component){
          template:'Suraj_InfiniScroll/item',
          width,
          height
+        },
+
+        /**this is a hook method just to check what is rendered not required**/
+        initConfig:function(options){
+        	this._super(options);
+			this.item = options.item;
+        	return this;
         }
     });
 
