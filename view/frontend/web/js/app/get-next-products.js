@@ -1,5 +1,7 @@
 define(['ko',
-    'Suraj_InfiniScroll/js/graphql/products-apollo'],function (ko,queryProduts){
+    'Suraj_InfiniScroll/js/graphql/products-apollo',
+    'Suraj_InfiniScroll/js/app/graphql-pager'],
+    function (ko,queryProduts,getPagingInfo){
     "use strict";
 
 
@@ -27,13 +29,25 @@ define(['ko',
         product.image = productData.image.url;
     }
 
-   return function (n){
-    const products = createEmptyProducts(n);
+    let numberOfKnownProducts = 0;
+    let totalProductCount = Number.POSITIVE_INFINITY;
+   
 
-        queryProduts(n).then(result =>{
+   function startLoadingProducts(n){
+    const {currentPage,pageSize} = getPagingInfo(numberOfKnownProducts,n);
+    const products = createEmptyProducts(pageSize);
+    numberOfKnownProducts +=pageSize;
+    console.log('pageSize:',pageSize,'currentPage:',currentPage, 'knownProducts:',numberOfKnownProducts);
+        queryProduts(pageSize,currentPage).then(result =>{
+            totalProductCount = result.data.products.total_count;
             result.data.products.items.forEach(productData => updateProduct(products.shift(),productData));
         })
         return products;
+   }
+   return function (n){
+    
+    n = Math.min(n, totalProductCount - numberOfKnownProducts);
+    return n<1? []: startLoadingProducts(n);    
     }
 
 

@@ -3,9 +3,10 @@ define(['apollo-boost'],function (Apollo){
 
 
     const client = new Apollo.ApolloClient();
-    const query = Apollo.gql(`query products($pageSize:Int!)
+    const query = Apollo.gql(`query products($pageSize:Int! $currentPage:Int!)
 {
-  products(filter:{} sort:{name:ASC} pageSize:$pageSize){
+  products(filter:{} sort:{name:ASC} pageSize:$pageSize currentPage:$currentPage){
+    total_count
     items{
       name
       url_rewrites{
@@ -18,11 +19,12 @@ define(['apollo-boost'],function (Apollo){
   }
 }`);
 
-    return function(pageSize){
+    return function(pageSize,currentPage){
         return client.query({
                 query:query,
                 variables:{
-                    pageSize:pageSize
+                    pageSize,
+                    currentPage
                 }
 
         });
