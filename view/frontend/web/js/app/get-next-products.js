@@ -28,27 +28,37 @@ define(['ko',
         product.url = '/'+ productData.url_rewrites[0].url;
         product.image = productData.image.url;
     }
-
-    let numberOfKnownProducts = 0;
-    let totalProductCount = Number.POSITIVE_INFINITY;
    
+    const products = {
+        items:[],
+        totalCount:Number.POSITIVE_INFINITY,
+        returned:0
+    };
 
-   function startLoadingProducts(n){
-    const {currentPage,pageSize} = getPagingInfo(numberOfKnownProducts,n);
-    const products = createEmptyProducts(pageSize);
-    numberOfKnownProducts +=pageSize;
-    console.log('pageSize:',pageSize,'currentPage:',currentPage, 'knownProducts:',numberOfKnownProducts);
-        queryProduts(pageSize,currentPage).then(result =>{
-            totalProductCount = result.data.products.total_count;
-            result.data.products.items.forEach(productData => updateProduct(products.shift(),productData));
-        })
-        return products;
-   }
-   return function (n){
+   function startLoadingProducts(products,toLoad){
+    const {currentPage,pageSize} = getPagingInfo(products.items.length,toLoad);
+    const newProducts = createEmptyProducts(pageSize);
+    products.items.push(...newProducts);
+
+    console.log({toLoad,pageSize,overFetched: pageSize - toLoad, currentPage,numberOfKnownProducts:products.items.length});
     
-    n = Math.min(n, totalProductCount - numberOfKnownProducts);
-    return n<1? []: startLoadingProducts(n);    
+    queryProduts(pageSize,currentPage).then(result =>{
+            products.totalCount = result.data.products.total_count;
+            result.data.products.items.forEach(productData => updateProduct(newProducts.shift(),productData));
+        })
+        return newProducts;
+   }
+   
+   return function (numberOfProductsRequested){
+        const toReturn = Math.min(numberOfProductsRequested,products.totalCount - products.items.length) 
+        const inBuffer = products.items.length - products.returned;
+        const toLoad = Math.max(0,toReturn - inBuffer);
+
+        if (toLoad > 0) {
+            startLoadingProducts(products,toLoad);
+        }
+
+        products.returned +=toReturn;
+        return products.items.slice(products.returned - toReturn, products.returned);         
     }
-
-
 });
